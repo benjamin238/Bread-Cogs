@@ -90,11 +90,11 @@ class BanList():
         if toggle:
             self.settings[server]['toggle'] = False
             await self.save_settings()
-            return await self.bot.say("Ban checks disabled.")
+            return await self.bot.say(":x: Ban checks disabled.")
         else:
             self.settings[server]['toggle'] = True
             await self.save_settings()
-            return await self.bot.say('Ban checks enabled.')
+            return await self.bot.say(':white_check_mark: Ban checks enabled.')
 
 
     @bancheck.command(pass_context=True, name="search")
@@ -106,7 +106,7 @@ class BanList():
         try:
             final = await self.lookup(user)
         except ValueError:
-            return await self.bot.say(embed=self.embed_maker("No ban found", 0x008000, None))
+            return await self.bot.say(embed=self.embed_maker(":white_check_mark: No ban found", 0x008000, None))
         name = (final[1].replace("<Aspect>", ""))
         userid = final[2]
         reason = final[3]
@@ -117,7 +117,7 @@ class BanList():
             """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                 name, userid, reason, niceurl))
 
-        await self.bot.say(embed=self.embed_maker("Ban Found", ctx.message.author.color, description))
+        await self.bot.say(embed=self.embed_maker(":x: Ban Found", ctx.message.author.color, description))
 
 
     async def _banjoin(self, member):
@@ -131,7 +131,7 @@ class BanList():
             final = await self.lookup(member)
         except ValueError:
             await self.bot.send_message(channel, embed=self.embed_maker(
-                "No ban found",
+                ":white_check_mark: No ban found",
                 0x008000,
                 '**Name:** {}\n**ID: **{}'.format(member.display_name, member.id)))
             return
@@ -146,7 +146,7 @@ class BanList():
                 name, userid, reason, niceurl))
 
         await self.bot.send_message(channel,
-            embed=self.embed_maker("Ban Found", 0xff0000, description))
+            embed=self.embed_maker(":x: Ban Found", 0xff0000, description))
 
 def check_folder():
     if not os.path.exists('data/bancheck'):
